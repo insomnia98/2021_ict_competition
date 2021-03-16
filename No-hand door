@@ -1,0 +1,34 @@
+from gpiozero import Servo,Button
+
+servo = Servo(26)
+button = Button(24)
+
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setup(17, GPIO.OUT)
+GPIO.setup(22, GPIO.IN)
+try:
+    while True :
+        pir_state=GPIO.input(22)
+        
+        print ('Press the button')
+        
+        if button.wait_for_press()
+          
+          pir_state=GPIO.input(22)
+      
+          if pir_state==True:
+            print('Someone is in front of the door')
+            GPIO.output(17, True)
+        
+          elif pir_state==False:
+            print('There is no one at the door.')
+            GPIO.output(17, False)
+            servo.max()
+        
+        time.sleep(2) 
+except KeyboardInterrupt :
+  GPIO.cleanup()
