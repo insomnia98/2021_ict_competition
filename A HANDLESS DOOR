@@ -1,8 +1,8 @@
 from gpiozero import Servo,Button
 
-servo = Servo(26)
-button = Button(24)
-button1 = Button(5)
+door = Servo(26)
+button_inside = Button(24)
+button_outside = Button(5)
 
 import RPi.GPIO as GPIO
 import time
@@ -18,31 +18,27 @@ try:
         
         
         
-        servo.min()
+        door.min()
         print("press the button")
-        '''if button1.is_pressed() :
-            print('out')
-            servo.max()
-       '''
+        
         if pir_state == True :
             GPIO.output(17,True)
         else :
             GPIO.output(17,False)
             
-        if button.is_pressed or button1.is_pressed:
+        if button_inside.is_pressed or button_outside.is_pressed:
             #print(button1.value)
             #print(button.value)
             pir_state=GPIO.input(22)
             
         
-            if button1.value==1 or (button.value ==1 and pir_state==False ):
-                servo.max()
+            if button_outside.value==1 or (button_inside.value ==1 and pir_state==False ):
+                door.max()
             else :
-                print('no')
-        time.sleep(1)
+                print('Someone is at the outdoor')
+        time.sleep(2)
                 
             
         
 except KeyboardInterrupt :
     GPIO.cleanup()
-
